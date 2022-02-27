@@ -1,4 +1,7 @@
-system: { self, nixpkgs, ... } @ args: with self.lib.${system}; with nixpkgs.lib; if lists.any (s: system == s) [ "armv7l-linux" ] then
+system: { self, nixpkgs, ... } @ args: with self.lib.${system}; with nixpkgs.lib; if lists.any (s: system == s) [
+  "armv7l-linux"
+  "aarch64-linux"
+] then
   rec {
     bin0-bin = baseDerivation {
       name = "bin0-bin";
