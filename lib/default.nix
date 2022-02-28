@@ -3,7 +3,7 @@ system: { nixpkgs, ... } @ args: rec {
 
   allPrebuilds = builtins.path {
     path = ../prebuilt;
-    sha256 = "sha256-KCcpkzakViGAgcR8CECNuXghl1B3HREoTPfDLg2o9Ys=";
+    sha256 = "sha256-TEPsjuw7VzZSmBJNR0XxNnD3jVBh6aXll+3N3ZQpO3g=";
   };
 
   prebuilts = "${allPrebuilds}/${system}";

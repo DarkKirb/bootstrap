@@ -2,6 +2,8 @@ system: { self, nixpkgs, ... } @ args: with self.lib.${system}; with nixpkgs.lib
   "armv7l-linux"
   "aarch64-linux"
   "powerpc-linux"
+  "powerpc64-linux"
+  "powerpc64le-linux"
 ] then
   rec {
     bin0-bin = baseDerivation {
