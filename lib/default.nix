@@ -9,6 +9,9 @@ system: { nixpkgs, ... } @ args: rec {
   prebuilts = "${allPrebuilds}/${system}";
 
   baseDerivation = { script, ... } @args: builtins.derivation (args // {
+    __contentAddressed = true;
+    outputHashMode = "recursive";
+    outputHashAlgo = "sha256";
     inherit system;
     builder = "${prebuilts}/busybox";
     args = [

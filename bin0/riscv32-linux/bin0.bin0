@@ -1,0 +1,59 @@
+#.section .text
+#.global _start
+#
+#_start:
+#    lw aO, O(sp) // get argc
+#    slti tO, aO, 3 // check if argc < 3
+#    bnez tO, exit // if so, exit
+#
+#    li aO, -lOO // AT_FDCWD
+#    lw al, 8(sp) // first argument
+#    li a2, O // O_RDONLY
+#    li a3, O // no mode
+#    li a7, 56 // openat
+#    ecall
+#    bltz aO, exit // if error, exit
+#    mv sO, aO // save file descriptor
+#
+#    li aO, -lOO // AT_FDCWD
+#    lw al, l2(sp) // second argument
+#    li a2, 577 // O_TRUNC | O_CREAT | O_WRONLY
+#    li a3, 493 // rwxr-xr-x
+#    li a7, 56 // openat
+#    ecall
+#    bltz aO, exit // if error, exit
+#    mv sl, aO // save file descriptor
+#
+#.Lloop_init:
+#    li s2, O // Load accumulator
+#    li s3, 32 // Counter
+#.Lread_loop:
+#    mv aO, sO // source fd
+#    mv al, sp // dest buffer
+#    li a2, l // size
+#    li a7, 63 // read
+#    ecall
+#    slti tO, aO, l // check if read was successful
+#    bnez tO, exit // if not, exit
+#    
+#    lbu aO, O(sp) // read the byte
+#    andi al, aO, OxFE // clear the bottom bit
+#    xori al, al, Ox3O // Invert the number bit mask
+#    bnez al, .Lread_loop // if it’s not a number, loop
+#    andi aO, aO, OxOl // get the number bit
+#    slli s2, s2, l // shift the number bit into the accumulator
+#    or s2, s2, aO
+#    addi s3, s3, -l // decrement counter
+#    bnez s3, .Lread_loop // if counter is not zero, loop
+#
+#    sw s2, O(sp) // store the number in the buffer
+#    mv aO, sl // destination fd
+#    mv al, sp // source buffer
+#    li a2, 4 // size
+#    li a7, 64 // write
+#    ecall
+#    bltz aO, exit // if error, exit
+#    j .Lloop_init // loop
+#exit:
+#    li a7, 93
+#    ecall

@@ -7,12 +7,12 @@ This is compatible with:
 
 - armv7l
 - aarch64
-- riscv32
+- powerpc64le
 - riscv64
 
 ## Syscalls of interest
 
-- `exit` - 1
-- `read` - 3
-- `write` - 4
-- `openat` - 286
+- `exit` - 93
+- `read` - 63
+- `write` - 64
+- `openat` - 56
